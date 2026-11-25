@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>танцы с бубном: персонаж</title>
+<link rel="stylesheet" href="ui-kit.css?v=202611252155"><link rel="stylesheet" href="font.css?v=202611252155"><style>
+html,body{margin:0}
+.wrap{padding:92px 40px 32px 24px;display:grid;grid-template-columns:150px auto minmax(260px,1fr);gap:28px;align-items:start;justify-content:start}
+.knobs{display:flex;flex-direction:column;gap:8px;align-items:flex-end}.knobs .gap{height:14px}
+.ed{position:relative;touch-action:none;cursor:pointer;user-select:none}.ed canvas{display:block}.ed svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.nd{fill:#ffcc00;stroke:#000;stroke-width:2;cursor:grab}.hd{fill:#fff;stroke:#ff00c4;stroke-width:2;cursor:grab}.nd.on{fill:#ff00c4}.ln{stroke:#ff00c4;stroke-width:1.5;pointer-events:none}.hit{fill:transparent;cursor:grab}.xx{fill:rgba(255,0,196,.14);stroke:#ff00c4;stroke-width:3;pointer-events:none}#xn{position:absolute;left:14px;bottom:12px;z-index:2;color:#000;background:#fff;border-radius:10px;padding:4px 10px;pointer-events:none;font-weight:500}#xn:empty{display:none}.pers.bad::after{content:'';position:absolute;left:8px;top:8px;width:12px;height:12px;border-radius:50%;background:#ff00c4}
+.whole{fill:transparent;cursor:move}.gbox{fill:none;stroke:#000;stroke-width:1.5;stroke-dasharray:5 4;pointer-events:none}.gh{fill:#ffcc00;stroke:#000;stroke-width:2}
+.bar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:12px}.top{margin:0 0 12px}.dgrp{flex-wrap:wrap}
+.tests{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.troupe{padding:0 40px 25vh 202px}.grid{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px}.pers{position:relative}.pb{border:0;padding:0;background:none;display:block}.pb canvas{display:block}.pers.on .pb{outline:3px solid var(--yellow);outline-offset:2px}.pers .del2{top:-12px;right:-12px}.troupe .card{margin:0}
+.rect.on{background:var(--yellow);border-color:var(--yellow)}.rect:disabled{opacity:.35;cursor:default}.sw.no{background:linear-gradient(to top right,transparent 47%,#ff00c4 47%,#ff00c4 53%,transparent 53%),#fff!important}
+@media(max-width:900px){.wrap{grid-template-columns:120px 1fr;padding-right:16px}.tests{grid-column:2}}
+</style></head><body>
+<header class="topbar"><a class="tblogo" href="guide.html" aria-label="бренд гайд"><canvas id="tbLogo"></canvas></a><span style="display:flex;gap:4px"><a class="tbl" href="guide.html">бренд гайд</a><a class="tbl" href="character.html" style="background:var(--yellow)">персонаж</a></span><nav class="tbnav"><a href="assets.html#posts">пост</a><a href="assets.html#profile">профиль</a></nav></header>
+<div class="wrap"><div class="knobs" id="knobs"></div>
+<div><div class="bar top" id="top"></div><div class="ed" id="ed"><b id="xn" aria-live="polite"></b><canvas id="cv"></canvas><svg id="ov"></svg></div><div class="bar" id="bot"></div></div>
+<div class="tests" id="tests"></div></div>
+<div class="troupe"><div class="bar top"><div class="chips" id="rat"></div><div class="dgrp"><button class="rect" onclick="toFile()">сохранить в файл</button><button class="rect" onclick="$('ff').value='';$('ff').click()">добавить из файла</button><input type="file" id="ff" accept=".json,application/json" hidden></div></div><div class="grid" id="grid"></div></div>
+<script src="chars-default.js?v=202611252155"></script><script src="poses.js?v=202611252155"></script><script src="cross.js?v=202611252155"></script><script src="dance.js?v=202611252155"></script><script src="figure.js?v=202611252155"></script><script src="ui-kit.js?v=202611252155"></script><script>
+'use strict';
+const $=id=>document.getElementById(id),clone=o=>JSON.parse(JSON.stringify(o)),KEY='tsb.characters.v3',OLD='tsb.characters.v2';
+// точки макета, 342×342
+const BASE={top:[88.9,5.4],top1:[121.8,5.4],top2:[13.5,5.4],top3:[119.5,5.4],
+ in1:[168.2,35.8],in1a:[150,17.3],in1b:[191.7,59.6],in2:[177.4,129.5],in2a:[198.5,94.5],in2b:[145.1,183.1],
+ out1:[170.7,29.9],out1a:[149.3,14.2],out1b:[202,52.8],out2:[187.9,137.5],out2a:[215.5,90.5],out2b:[156.2,191.6],
+ bot:[26.8,165.1],bota:[62.8,191],boto:[64.8,193.2],botb:[21,160.7],left:[13.5,150.1],lefta:[16.4,155.7],leftb:[-21.2,82.3],
+ hand:[180.1,7],handa:[348.4,7],butt:[183.8,0],tip:[132.7,121.5],neck:[269.9,108.4],necka:[394.3,23.8],neckb:[255.2,200.9],neckc:[344.8,89.6],neckd:[319.7,121.3],leftc:[-63,280.4],
+ hb:[255.7,98.4],hb1:[278.2,86],hb2:[226.8,107.8],ht:[244,68.1],ht1:[263.1,60.7],ht2:[218,78.2],
+ hip:[341.7,215.5],hipa:[342.7,160.6],hipb:[317.8,156.8],hipc:[178.7,226.1],hipd:[-4.2,360],
+ f1:[35.8,342],f1a:[-84.8,258.5],f1e:[1.3,342],f2:[339.5,304.9],f2a:[21.4,363.2],f2e:[339.5,340.4]};
+// [точка, усик, усик, точка, группа]; две точки = прямая
+const SEG=[['top','top1','in1a','in1','drum'],['in1','in1b','in2a','in2','drum'],['in2','in2b','bota','bot','drum'],['bot','botb','lefta','left','drum'],['left','leftb','top2','top','drum'],
+ ['top','top3','out1a','out1','rim'],['out1','out1b','out2a','out2','rim'],['out2','out2b','boto','bot','rim'],
+ ['hand','handa','necka','neck','arm'],['neck','neckb','leftc','left','arm'],['neck','neckc','hipa','hip','body'],['neck','neckd','hipb','hip','body'],['hip','hipc','f1a','f1','leg'],['hip','hipd','f2a','f2','leg'],
+ ['hb','hb1','ht1','ht','head'],['ht','ht2','hb2','hb','head'],['butt','hand'],['hand','tip'],['neck','hb'],['f1','f1e'],['f2','f2e']];
+const PATHS=[[0,1,2,3,4],[5,6,7],[8],[9],[10],[11],[12,19],[13,20],[14,15],[16,17],[18]];
+const OWN={};for(const s of SEG)if(s.length>2){OWN[s[1]]=s[0];OWN[s[2]]=s[3]}
+const DRUM=['top','top1','top2','top3','in1','in1a','in1b','in2','in2a','in2b','out1','out1a','out1b','out2','out2a','out2b','bot','bota','boto','botb','left','lefta','leftb'];
+const HEAD=['hb1','hb2','ht','ht1','ht2'];
+const RIM={out1:'in1',out1a:'in1a',out1b:'in1b',out2:'in2',out2a:'in2a',out2b:'in2b',boto:'bota',top3:'top1'};
+const BEND={};for(const s of SEG)if(['arm','body','leg'].includes(s[4])){BEND[s[1]]=[s[0],s[3],1/3,s[4]];BEND[s[2]]=[s[0],s[3],2/3,s[4]]}
+const MOVE={hb:HEAD,neck:['hb',...HEAD],hand:['butt'],f1:['f1e'],f2:['f2e']};
+// крутилки: .5 = как в макете
+const DEF={pts:BASE,k:{drum:.5,rim:.5,head:.5,stick:.5,arm:.5,body:.5,leg:.5,weight:.5,wob:.5,step:.5},skin:'none',side:'pink',surf:'white',under:false,dots:true};
+// A = вся труппа; S = открытый персонаж (свои точки, крутилки, цвета); фон и вид общие
+let A=[],cur=0,S,G={surf:'white',under:false,dots:true,ratio:'3:4'},undo=[],sel=null,seen='';
+const SHOWN=['surf','under','dots'];
+function open_(i){if(play){play=false;$('ov').style.display=''}cur=i;S=A[i];for(const k of SHOWN)S[k]=G[k];sel=null}
+function born(q,i){const o=clone(DEF);if(q)o.pts=buildPose(q,BASE,DRUM);o.src=q?q.id:'макет';o.skin=['none','yellow','none'][i%3];o.side=i%3===2?'yellow':'pink';fit(o);o.home=clone(o.pts);return o}
+// копии: при каждом открытии прошлый список откладывается в IndexedDB (последние 30), отдельно от рабочего
+const vault=()=>new Promise((ok,no)=>{const r=indexedDB.open('tsb.characters.backup',1);r.onupgradeneeded=()=>r.result.createObjectStore('b');r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});
+async function backup(raw){if(!raw)return;try{const d=await vault(),st=d.transaction('b','readwrite').objectStore('b');st.put(raw,Date.now());const r=st.getAllKeys();r.onsuccess=()=>r.result.slice(0,-30).forEach(k=>st.delete(k))}catch(e){console.warn(e)}}
+function load(){let v=null;const raw=localStorage.getItem(KEY);backup(raw);try{v=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  if(v&&Array.isArray(v.list)&&v.list.length){A=v.list;Object.assign(G,v.g)}else{A=CHAR_DEFAULT.map(clone);
+    // настроенные вручную персонажи из прошлой серии остаются в конце
+    try{const o=JSON.parse(localStorage.getItem(OLD)||'null');if(o&&o.list)A.push(...o.list.filter(T=>T.home&&(JSON.stringify(T.pts)!==JSON.stringify(T.home)||JSON.stringify(T.k)!==JSON.stringify(DEF.k))))}catch(e){}}
+  if(raw&&!(v&&Array.isArray(v.list)&&v.list.length))try{localStorage.setItem(KEY+'.broken.'+Date.now(),raw)}catch(e){}
+  open_(v&&A[v.cur]?v.cur:0)}
+function toFile(){save();const a=el('a');a.href=URL.createObjectURL(new Blob([localStorage.getItem(KEY)||JSON.stringify({list:A,cur,g:G})],{type:'application/json'}));a.download=`tancy-s-bubnom-персонажи-${A.length}-${new Date().toISOString().slice(0,16).replace(/[:T]/g,'-')}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+// из файла персонажи добавляются в конец, ничего не заменяя
+async function fromFile(f){try{const v=JSON.parse(await f.text());if(!Array.isArray(v.list)||!v.list.length||!v.list.every(T=>T.pts&&T.k&&Object.keys(BASE).every(q=>Array.isArray(T.pts[q]))))throw 0;const have=new Set(A.map(T=>JSON.stringify([T.pts,T.k,T.skin,T.side]))),add=v.list.filter(T=>!have.has(JSON.stringify([T.pts,T.k,T.skin,T.side])));if(!add.length)return toast('все эти персонажи уже здесь');snap();A.push(...add);open_(A.length-1);all();toast('добавлено персонажей: '+add.length,back)}catch(e){toast('это не файл персонажей')}}
+const save=()=>{try{giveIds();for(const k of SHOWN)G[k]=S[k];localStorage.setItem(KEY,JSON.stringify({list:A,cur,g:G}));publish()}catch(e){console.warn(e)}};
+const snap=()=>{undo.push(JSON.stringify({A,cur,G}));if(undo.length>40)undo.shift()};
+const mul=v=>v<.5?.15+v*1.7:1+(v-.5)*2;   // 0.15…1…2
+const size=v=>.4+v*1.2,FR=v=>1.2*v+.4;
+// точки после крутилок
+function effective(T){const p=T.pts,o=clone(p),K=T.k,ds=size(K.drum),cx=(p.left[0]+p.in2[0])/2,cy=(p.top[1]+p.bot[1])/2,hs=size(K.head),rm=mul(K.rim);
+  for(const q in RIM)for(const j of[0,1])o[q][j]=p[RIM[q]][j]+(p[q][j]-p[RIM[q]][j])*rm;
+  for(const q of DRUM)o[q]=[cx+(o[q][0]-cx)*ds,cy+(o[q][1]-cy)*ds];
+  for(const q of HEAD)o[q]=[0,1].map(j=>p.hb[j]+(p[q][j]-p.hb[j])*hs);
+  for(const q in BEND){const[a,b,t,g]=BEND[q],n=OWN[q],h=[0,1].map(j=>p[q][j]+o[n][j]-p[n][j]);const k=mul(K[g]);o[q]=[0,1].map(j=>{const c=o[a][j]+(o[b][j]-o[a][j])*t;return c+(h[j]-c)*k})}
+  const st=mul(K.stick);o.tip=[0,1].map(j=>p.hand[j]+(p.tip[j]-p.hand[j])*st);return o}
+function gain(q){let g=1;const K=S.k;if(RIM[q])g*=mul(K.rim);if(DRUM.includes(q))g*=size(K.drum);if(HEAD.includes(q))g*=size(K.head);if(BEND[q])g*=mul(K[BEND[q][3]]);if(q==='tip')g*=mul(K.stick);return g}
+function curve(E,s){if(s.length<3)return Array.from({length:9},(_,i)=>[0,1].map(j=>E[s[0]][j]+(E[s[1]][j]-E[s[0]][j])*i/8));
+  const[a,b,c,d]=s.map(q=>E[q]);return Array.from({length:49},(_,i)=>{const u=i/48,v=1-u;return[0,1].map(j=>v*v*v*a[j]+3*v*v*u*b[j]+3*v*u*u*c[j]+u*u*u*d[j])})}
+const join=(E,ids)=>ids.flatMap((i,n)=>n?curve(E,SEG[i]).slice(1):curve(E,SEG[i]));
+const rnd=k=>{const s=Math.sin(k*127.1+11.7)*43758.5453;return s-Math.floor(s)},noise=v=>{const f=Math.floor(v),u=v-f,w=u*u*(3-2*u);return(rnd(f)*(1-w)+rnd(f+1)*w)*2-1};
+function pen(x,lines,w,col,amp,per){x.lineWidth=w;x.lineCap=x.lineJoin='round';x.strokeStyle=col;x.beginPath();lines.forEach((L,li)=>{let s=0,first=true;
+  for(let i=1;i<L.length;i++){const a=L[i-1],b=L[i],len=Math.hypot(b[0]-a[0],b[1]-a[1]);if(!len)continue;const n=Math.max(1,Math.ceil(len/(w*.8)));
+    for(let j=first?0:1;j<=n;j++){const u=j/n,d=noise((s+len*u)/(w*per)+li*50)*w*amp,X=a[0]+(b[0]-a[0])*u-(b[1]-a[1])/len*d,Y=a[1]+(b[1]-a[1])*u+(b[0]-a[0])/len*d;first?x.moveTo(X,Y):x.lineTo(X,Y);first=false}s+=len}});x.stroke()}
+const COL={none:null,white:'#ffffff',yellow:'#ffc800',pink:'#ff00c4'},SURF={white:'#ffffff',yellow:'#ffcc00',pink:'#ff00c4'};
+function drawChar(x,X,Y,W,H,T,o={}){const E=o.E||effective(T),tf=([a,b])=>[X+a/342*W,Y+b/342*H],P=ids=>join(E,ids).map(tf),w=o.w||Math.min(W,H)*(.0035+T.k.weight*.0145);
+  const fill=(pts,c)=>{x.beginPath();pts.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fillStyle=c;x.fill()};
+  if(COL[T.skin])fill(P([0,1,2,3,4]),COL[T.skin]);
+  if(COL[T.side])fill([...P([5,6,7]),...P([0,1,2]).reverse()],COL[T.side]);
+  pen(x,PATHS.map(P),w,o.line||'#000',T.k.wob*.34,2+T.k.step*6)}
+// рамка: персонаж всегда касается всех сторон прямоугольника
+function bounds(T){const E=effective(T);let a=1e9,b=1e9,c=-1e9,d=-1e9;for(const s of SEG)for(const p of curve(E,s)){a=Math.min(a,p[0]);b=Math.min(b,p[1]);c=Math.max(c,p[0]);d=Math.max(d,p[1])}return[a,b,c-a||1,d-b||1]}
+function fit(T){const[a,b,w,h]=bounds(T);for(const k in T.pts)T.pts[k]=[(T.pts[k][0]-a)/w*342,(T.pts[k][1]-b)/h*342]}
+// ───────── движение: танцуют все
+const NAMES={DRUM,HEAD,RIM};
+let play=false,clock=0,last=0;const boxCache=new Map();
+const mot=()=>Object.assign({tempo:.5,hit:.5,dance:.5},G.motion),loopLen=()=>3.2/(.5+mot().tempo);
+const canDance=()=>true;
+// рамка одна на всю петлю: персонаж касается сторон в крайних кадрах и не пульсирует
+function danceFrame(T,u){const m=mot(),E0=effective(T),key=JSON.stringify([T.pts,T.k,m.hit,m.dance]);let box=boxCache.get(T.id);if(!box||box[0]!==key){let a=1e9,b=1e9,c=-1e9,d=-1e9;for(let i=0;i<64;i++){const E=DANCE.frame(E0,i/64,m,NAMES);for(const s of SEG)for(const p of curve(E,s)){a=Math.min(a,p[0]);b=Math.min(b,p[1]);c=Math.max(c,p[0]);d=Math.max(d,p[1])}}box=[key,[a,b,c-a,d-b]];boxCache.set(T.id,box)}
+  const[a,b,w,h]=box[1],E=DANCE.frame(E0,u,m,NAMES);for(const k in E)E[k]=[(E[k][0]-a)/w*342,(E[k][1]-b)/h*342];return E}
+function tick(t){if(!play)return;if(!canDance()||dr){setPlay(false);return}clock+=Math.max(0,Math.min(.1,(t-last)/1000));last=t;paintPlay((clock/loopLen())%1);requestAnimationFrame(tick)}
+function paintPlay(u){const c=$('cv'),d=dpr(),x=c.getContext('2d'),E=danceFrame(S,u);x.setTransform(d,0,0,d,0,0);x.fillStyle=SURF[S.surf];x.fillRect(0,0,Z,Z);drawChar(x,M,M,Z-2*M,Z-2*M,S,{E});
+  const t=$('tests');TESTS.forEach(([w,h],i)=>{const q=t.children[i];if(!q)return;const y=q.getContext('2d');y.setTransform(d,0,0,d,0,0);y.fillStyle=SURF[S.surf];y.fillRect(0,0,w,h);const m=Math.min(w,h)*.08;drawChar(y,m,m,w-2*m,h-2*m,S,{E,w:Math.max(1,Math.min(w,h)*(.003+S.k.weight*.0125)*(w<70?2.6:1))})});
+  // вся труппа внизу танцует вместе, рисуются только те, кто на экране
+  const[tw,th]=size_();A.forEach((T,i)=>{const n=$('grid').children[i],q=n&&n.querySelector('canvas');if(!q)return;const r=q.getBoundingClientRect();if(r.bottom<60||r.top>innerHeight)return;const y=q.getContext('2d');y.setTransform(d,0,0,d,0,0);y.fillStyle=SURF[S.surf];y.fillRect(0,0,tw,th);const m=Math.min(tw,th)*.08;drawChar(y,m,m,tw-2*m,th-2*m,T,{E:danceFrame(T,u),w:Math.max(1.2,Math.min(tw,th)*(.004+T.k.weight*.0145))})})}
+function setPlay(v){v=v&&canDance();if(v===play)return;play=v;$('ov').style.display=v?'none':'';if(v){sel=null;last=performance.now();requestAnimationFrame(tick)}else{seen='';paint()}bars()}
+// ───────── в билдер: готовые контуры всех персонажей; удалённые остаются для постов, где они уже стоят
+const BAKED='tsb.characters.baked',SRC14=['макет','п1','п2','п3','п4','п5','п6','п7','п8','п18','п19','п22','п24','поклон'];
+function giveIds(){const used=new Set();for(const T of A)if(T.id!=null){if(used.has(T.id))delete T.id;else used.add(T.id)}
+  for(const T of A)if(T.id==null){const n=SRC14.indexOf(T.src);T.id=n>=0&&!used.has(n)&&!T.extra?n:'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);used.add(T.id)}}
+const bakeCache=new Map();
+function bakeOne(T){const key=JSON.stringify([T.pts,T.k]),old=bakeCache.get(T.id);if(old&&old[0]===key)return old[1];const q=clone(T);fit(q);const E=effective(q),F=ids=>join(E,ids).map(p=>p.map(v=>Math.round(v*100)/100)),o={id:T.id,w:T.k.wob,s:T.k.step,skin:F([0,1,2,3,4]),side:[...F([5,6,7]),...F([0,1,2]).reverse()],lines:PATHS.map(F),E:Object.fromEntries(Object.entries(E).map(([k,p])=>[k,p.map(v=>Math.round(v*100)/100)]))};bakeCache.set(T.id,[key,o]);return o}
+function publish(){let prev=[];try{prev=JSON.parse(localStorage.getItem(BAKED)||'[]')}catch(e){}const live=new Set(A.map(T=>T.id)),dead=prev.filter(c=>!live.has(c.id)).map(c=>Object.assign(c,{dead:true})).slice(-30),s=JSON.stringify([...A.map(bakeOne),...dead]);if(s!==localStorage.getItem(BAKED))localStorage.setItem(BAKED,s)}
+// ───────── редактор
+let Z=560,M=70;
+const pos=p=>[M+p[0]/342*(Z-2*M),M+p[1]/342*(Z-2*M)];
+function paint(){Z=Math.max(320,Math.min(innerHeight-220,innerWidth*.46,680));M=Z*.14;const c=$('cv'),d=dpr();c.width=c.height=Math.round(Z*d);c.style.width=c.style.height=Z+'px';$('ed').style.width=Z+'px';const x=c.getContext('2d');x.scale(d,d);x.fillStyle=SURF[S.surf];x.fillRect(0,0,Z,Z);
+  if(S.under)drawChar(x,M,M,Z-2*M,Z-2*M,Object.assign(clone(DEF),{pts:S.home,side:'none'}),{line:'rgba(0,0,0,.18)'});
+  drawChar(x,M,M,Z-2*M,Z-2*M,S);dots();tests();troupe()}
+// голова и бубен целиком: тащить, крутить, менять размер
+const WHOLE={'@drum':{pts:DRUM,out:[0,1,2,3,4,5,6,7]},'@head':{pts:['hb',...HEAD],out:[14,15]}};
+function box(g,E){const P=WHOLE[g].out.flatMap(i=>curve(E,SEG[i])),X=P.map(p=>p[0]),Y=P.map(p=>p[1]);return[Math.min(...X),Math.min(...Y),Math.max(...X),Math.max(...Y)]}
+const mid=b=>[(b[0]+b[2])/2,(b[1]+b[3])/2];
+function moveWhole(g,from,f){const T={pts:clone(from),k:S.k},E0=effective(T),W=WHOLE[g].pts,c=mid(box(g,E0));
+  for(const k of W)S.pts[k]=f(from[k],c);
+  // крутилки размера не должны сдвигать центр
+  const drift=E=>{const a=[0,0];for(const k of W){const q=f(E0[k],c);a[0]+=q[0]-E[k][0];a[1]+=q[1]-E[k][1]}return a.map(v=>v/W.length)};
+  const d=drift(effective(S));for(const k of W)S.pts[k]=[S.pts[k][0]+d[0],S.pts[k][1]+d[1]];
+  if(g==='@drum'){const l=S.pts.left,m=[l[0]-from.left[0],l[1]-from.left[1]];S.pts.leftc=[from.leftc[0]+m[0],from.leftc[1]+m[1]];
+    // палка остаётся на том же месте кожи
+    const t=f(E0.tip,c),st=mul(S.k.stick);S.pts.tip=[0,1].map(j=>from.hand[j]+(t[j]-from.hand[j])/st)}}
+function dots(){const v=$('ov');v.innerHTML='';const E=effective(S),ns='http://www.w3.org/2000/svg',mk=(t,a)=>{const n=document.createElementNS(ns,t);for(const k in a)n.setAttribute(k,a[k]);v.appendChild(n);return n};
+  for(const[g,ids]of[['@drum',[0,1,2,3,4]],['@head',[14,15]]])mk('path',{d:'M'+join(E,ids).map(p=>pos(p).join(' ')).join('L')+'Z',class:'whole','data-g':g});
+  // лишние пересечения: можно только колотушке с бубном
+  const bad=CROSS.find(E,SEG);for(const q of bad){const a=pos(q.p);mk('circle',{cx:a[0],cy:a[1],r:15,class:'xx'})}
+  $('xn').textContent=bad.length?'пересечений: '+bad.length:'';
+  if(S.dots||WHOLE[sel])points(E,mk);
+  if(WHOLE[sel]){const b=box(sel,E),a=pos([b[0],b[1]]),z=pos([b[2],b[3]]),m=12,x0=a[0]-m,y0=a[1]-m,x1=z[0]+m,y1=z[1]+m,cx=(x0+x1)/2,up=y0>44,ry=up?y0-30:y1+30;
+    mk('rect',{x:x0,y:y0,width:x1-x0,height:y1-y0,class:'gbox'});mk('line',{x1:cx,y1:up?y0:y1,x2:cx,y2:ry,class:'gbox'});
+    for(const[x,y,q,c]of[[x0,y0,'scale','nwse-resize'],[x1,y1,'scale','nwse-resize'],[x1,y0,'scale','nesw-resize'],[x0,y1,'scale','nesw-resize'],[cx,ry,'turn','grab']]){mk(q==='turn'?'circle':'rect',q==='turn'?{cx:x,cy:y,r:8,class:'gh'}:{x:x-7,y:y-7,width:14,height:14,rx:3,class:'gh'});mk('circle',{cx:x,cy:y,r:14,class:'hit','data-op':q,style:'cursor:'+c})}}}
+function points(E,mk){if(!S.dots)return;const v=$('ov'),owner=sel&&!WHOLE[sel]&&(OWN[sel]||sel);
+  if(owner)for(const q in OWN)if(OWN[q]===owner){const a=pos(E[owner]),b=pos(E[q]);mk('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],class:'ln'});mk('circle',{cx:b[0],cy:b[1],r:5,class:'hd'});mk('circle',{cx:b[0],cy:b[1],r:12,class:'hit','data-q':q})}
+  for(const q in BASE)if(!OWN[q]){const a=pos(E[q]);mk('circle',{cx:a[0],cy:a[1],r:6,class:'nd'+(q===owner?' on':'')});mk('circle',{cx:a[0],cy:a[1],r:12,class:'hit','data-q':q})}
+  // усики сверху, чтобы их было легко взять
+  if(owner)[...v.querySelectorAll('.hd')].forEach(h=>{const t=h.nextSibling;v.append(h,t)})}
+const TESTS=[[150,200],[150,188],[150,150],[120,213],[320,150],[64,64],[36,36]];
+function tests(){const t=$('tests');while(t.children.length<TESTS.length)t.appendChild(document.createElement('canvas'));TESTS.forEach(([w,h],i)=>{const c=t.children[i],d=dpr();c.width=w*d;c.height=h*d;c.style.cssText=`width:${w}px;height:${h}px`;const x=c.getContext('2d');x.scale(d,d);x.fillStyle=SURF[S.surf];x.fillRect(0,0,w,h);const m=Math.min(w,h)*.08,T=clone(S);fit(T);drawChar(x,m,m,w-2*m,h-2*m,T,{w:Math.max(1,Math.min(w,h)*(.003+S.k.weight*.0125)*(w<70?2.6:1))})})}
+// труппа
+const RAT={'3:4':4/3,'1:1':1,'9:16':16/9,'16:9':9/16};
+function thumb(c,T,w,h){const d=dpr();c.width=w*d;c.height=h*d;c.style.cssText=`width:${w}px;height:${h}px`;const x=c.getContext('2d');x.scale(d,d);x.fillStyle=SURF[S.surf];x.fillRect(0,0,w,h);const q=clone(T),m=Math.min(w,h)*.08;fit(q);drawChar(x,m,m,w-2*m,h-2*m,q,{w:Math.max(1.2,Math.min(w,h)*(.004+T.k.weight*.0145))})}
+function size_(){const r=RAT[G.ratio];return r<1?[232,Math.round(232*r)]:[150,Math.round(150*r)]}
+function troupe(full){const sig=[A.length,cur,G.ratio,S.surf].join(),g=$('grid'),[w,h]=size_();
+  if(!full&&sig===seen){g.children[cur].classList.toggle('bad',CROSS.find(effective(S),SEG).length>0);thumb(g.children[cur].firstChild.firstChild,S,w,h);return}seen=sig;g.innerHTML='';
+  A.forEach((T,i)=>{const n=el('div','pers'+(i===cur?' on':'')+(CROSS.find(effective(T),SEG).length?' bad':'')),b=el('button','pb'),c=el('canvas');b.title='открыть';b.setAttribute('aria-label','персонаж '+(i+1));b.setAttribute('aria-pressed',i===cur);thumb(c,T,w,h);b.appendChild(c);b.onclick=()=>{save();open_(i);all();};n.appendChild(b);
+    if(i===cur&&A.length>1){const x=el('button','circ del2','×');x.title='удалить';x.setAttribute('aria-label','удалить');x.onclick=()=>{snap();A.splice(i,1);open_(Math.max(0,i-1));all();toast('персонаж удалён',back)};n.appendChild(x)}g.appendChild(n)});
+  const p=el('button','plus','+<span>ещё</span>');p.style.width=w+'px';p.style.height=h+'px';p.onclick=()=>{snap();const used=new Set(A.map(T=>T.src)),free=MORE.filter(q=>!used.has(q.id));let o;if(free.length)o=born(free[0],A.length);else{const L=[...POSES,...MORE],q=L[Math.floor(Math.random()*L.length)];o=born(q,A.length);for(const k in o.pts)o.pts[k][0]=342-o.pts[k][0];o.home=clone(o.pts)}o.extra=true;save();A.push(o);open_(A.length-1);all()};const pc=el('div','card');pc.appendChild(p);g.appendChild(pc);
+  const ch=$('rat');ch.innerHTML='';for(const k in RAT){const b=el('button',k===G.ratio?'on':'',k);b.onclick=()=>{G.ratio=k;all()};ch.appendChild(b)}}
+let dr=null;
+$('ed').onpointerdown=e=>{if(e.button)return;if(play){setPlay(false);return}const D=e.target.dataset,q=D.q;if(D.g||D.op){snap();if(D.g)sel=D.g;const c=pos(mid(box(sel,effective(S)))),r=$('ed').getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
+    dr={op:D.op||'move',g:sel,x:e.clientX,y:e.clientY,p:clone(S.pts),moved:false,c,a:Math.atan2(py-c[1],px-c[0]),l:Math.hypot(px-c[0],py-c[1])};$('ed').setPointerCapture(e.pointerId);dots();e.preventDefault();return}
+  if(!q){sel=null;dots();return}snap();sel=q;dr={q,x:e.clientX,y:e.clientY,p:clone(S.pts),moved:false};$('ed').setPointerCapture(e.pointerId);dots();e.preventDefault()};
+$('ed').onpointermove=e=>{if(!dr)return;const s=342/(Z-2*M),dx=(e.clientX-dr.x)*s,dy=(e.clientY-dr.y)*s;if(!dr.moved&&Math.hypot(dx,dy)<2)return;dr.moved=true;
+  if(dr.g){const r=$('ed').getBoundingClientRect(),px=e.clientX-r.left-dr.c[0],py=e.clientY-r.top-dr.c[1];let k=1,t=0;if(dr.op==='scale')k=Math.max(.2,Math.min(4,Math.hypot(px,py)/dr.l));if(dr.op==='turn')t=Math.atan2(py,px)-dr.a;
+    const C=Math.cos(t)*k,N=Math.sin(t)*k,mx=dr.op==='move'?dx:0,my=dr.op==='move'?dy:0;S.pts=clone(dr.p);moveWhole(dr.g,dr.p,([x,y],c)=>[c[0]+(x-c[0])*C-(y-c[1])*N+mx,c[1]+(x-c[0])*N+(y-c[1])*C+my]);paint();return}
+  const q=dr.q,g=gain(q),add=(k,f)=>S.pts[k]=[dr.p[k][0]+dx*f,dr.p[k][1]+dy*f];
+  add(q,1/g);if(!OWN[q]){const go=new Set(MOVE[q]||[]);for(const k in OWN)if(OWN[k]===q)go.add(k);for(const k of go)add(k,1/g)}paint()};
+$('ed').onpointerup=$('ed').onpointercancel=()=>{if(!dr)return;if(!dr.moved)undo.pop();if(dr.moved)fit(S);dr=null;save();bars();paint()};
+// ───────── управление
+const KN=[['бубен','drum'],['обод','rim'],['палка','stick'],['голова','head'],null,['руки','arm'],['тело','body'],['ноги','leg'],null,['линия','weight'],['дрожь','wob'],['волна','step']];
+function knobs(){const w=$('knobs');w.innerHTML='';for(const n of KN){if(!n){w.appendChild(el('div','gap'));continue}const[t,k]=n;let held=false;const kb=knob(t,S.k[k],v=>{if(!held){snap();held=true}S.k[k]=v;paint()},()=>{held=false;fit(S);save();bars();paint()});kb.ondblclick=()=>{snap();S.k[k]=.5;all()};w.appendChild(lab(t,kb))}if(canDance()){w.appendChild(el('div','gap'));for(const[t,k]of[['темп','tempo'],['удар','hit'],['танец','dance']])w.appendChild(lab(t,knob(t,mot()[k],v=>{G.motion=Object.assign(mot(),{[k]:v});if(!play)setPlay(true)},()=>save())))}}
+const B=(t,f,on)=>{const b=el('button','rect'+(on?' on':''),t);b.onclick=f;return b};
+function bars(){const t=$('top'),b=$('bot');t.innerHTML=b.innerHTML='';const l=el('div','dgrp'),r=el('div','dgrp');
+  l.append(B('точки',()=>{S.dots=!S.dots;all()},S.dots),B('исходная',()=>{S.under=!S.under;all()},S.under));
+  const u=B('отменить',back);u.disabled=!undo.length;r.append(u,B('сбросить',()=>{snap();S.pts=clone(S.home);S.k=clone(DEF.k);sel=null;all();toast('поза как была',back)}));if(canDance()){const p=B(play?'стоп':'▶ танец',()=>setPlay(!play),play);p.title='пробел';l.append(p)}l.append(B('отразить',()=>{snap();for(const k in S.pts)S.pts[k][0]=342-S.pts[k][0];all()}));t.append(l,r);
+  const sw=(opts,key)=>{const n=el('div','sws');opts.forEach(o=>{const q=swatch(o,S[key],COL[o]||'#fff',()=>{snap();S[key]=o;all()},{none:'нет',white:'белый',yellow:'жёлтый',pink:'розовый'}[o]);if(o==='none')q.classList.add('no');n.appendChild(q)});return n};
+  b.append(lab('фон',sw(['white','yellow','pink'],'surf')),lab('бубен',sw(['none','white','yellow','pink'],'skin')),lab('обод',sw(['none','white','yellow','pink'],'side')))}
+function back(){const v=undo.pop();if(!v)return;const o=JSON.parse(v);A=o.A;G=o.G;open_(Math.min(o.cur,A.length-1));all()}
+function all(){if(play){play=false;$('ov').style.display=''}save();seen='';knobs();bars();paint()}
+addEventListener('keydown',e=>{if(e.code==='Space'&&canDance()&&!/^(BUTTON|INPUT|TEXTAREA)$/.test(document.activeElement?.tagName||'')){e.preventDefault();setPlay(!play)}if((e.metaKey||e.ctrlKey)&&e.code==='KeyZ'&&!e.shiftKey){e.preventDefault();back()}if(e.key==='Escape'){sel=null;dots()}});
+addEventListener('resize',()=>paint());
+{const c=$('tbLogo');c.width=128;c.height=80;c.style.cssText='width:64px;height:40px';Fig.logo(c.getContext('2d'),'oval',0,2,.42,{skin:Fig.C.drum})}
+$('ff').onchange=e=>e.target.files[0]&&fromFile(e.target.files[0]);
+if(location.hash==='#save'||location.search==='?save'){const r=localStorage.getItem(KEY);if(r){const x=document.createElement('a');x.href=URL.createObjectURL(new Blob([r],{type:'application/json'}));x.download='tancy-s-bubnom-auto.json';x.click()}}
+load();all();
+</script></body></html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>танцы с бубном: гайд</title>
+<link rel="stylesheet" href="ui-kit.css?v=202611252155"><link rel="stylesheet" href="font.css?v=202611252155"><style>
+html{scroll-behavior:smooth;scroll-padding-top:84px}body{margin:0}
+.side{position:fixed;top:92px;left:24px;width:150px;display:flex;flex-direction:column;gap:2px}.side a{color:#000;text-decoration:none;padding:7px 12px;border-radius:10px}.side a:hover{background:#fff}
+main{margin-left:210px;padding:92px 40px 20vh 0;max-width:1180px}section{margin-bottom:88px}h1{font-weight:300;font-size:64px;letter-spacing:.06em;line-height:.9;margin:0 0 24px;-webkit-text-stroke:2px #000}h2{font-weight:500;font-size:26px;margin:0 0 10px}h3{font-weight:500;font-size:18px;margin:36px 0 6px}
+p{max-width:62ch;font-size:16px;margin:0 0 22px}.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}.g.w{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+figure{margin:0}figure canvas{width:100%;display:block;background:#fff}figcaption{margin-top:8px;color:var(--mut)}.c{height:150px;display:flex;align-items:flex-end;padding:14px}
+@media(max-width:760px){.side{display:none}main{margin-left:20px;padding-right:20px}}@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body>
+<header class="topbar"><a class="tblogo" href="guide.html" aria-label="бренд гайд"><canvas id="tbLogo"></canvas></a><span style="display:flex;gap:4px"><a class="tbl" href="guide.html" style="background:var(--yellow)">бренд гайд</a><a class="tbl" href="character.html">персонаж</a></span><nav class="tbnav"><a href="assets.html#posts">пост</a><a href="assets.html#profile">профиль</a></nav><a class="tbeye" href="assets.html#preview" style="color:#000;text-decoration:none"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>превью</span></a></header>
+<nav class="side"><a href="#idea">идея</a><a href="#logo">логотип</a><a href="#figure">фигура</a><a href="#color">цвет</a><a href="#type">шрифт</a><a href="#motion">движение</a><a href="#posts">посты</a><a href="#profile">профиль</a></nav>
+<main>
+<section id="idea"><h1 aria-label="танцы с бубном"><canvas id="h1" style="width:440px;height:130px;display:block"></canvas></h1><p>Человек танцует с бубном, нарисованный одной живой линией. Фигура растягивается под любой формат, а линия всегда одной толщины.</p><div class="g w" id="gi"></div></section>
+<section id="logo"><h2>логотип</h2><p>Название в круглом бубне: в две строки или с переносом. Короткие версии: «тсб», «т с б-м» и «=)».</p><div class="g" id="gl"></div></section>
+<section id="figure"><h2>фигура</h2><p>Тянуть можно в любую сторону, класть набок и отражать. Обод бубна розовый или жёлтый, кожа пустая, белая или жёлтая.</p><div class="g" id="gf"></div><p style="margin-top:32px">Все персонажи танцуют и бьют палкой в бубен. Персонаж в первую очередь дополняет или заменяет логотип, а главным в посте бывает по желанию.</p><div class="g" id="gc"></div></section>
+<section id="color"><h2>цвет</h2><div class="g"><div class="c" style="background:#fff">#FFFFFF</div><div class="c" style="background:#ffcc00">#FFCC00</div><div class="c" style="background:#ff00c4">#FF00C4</div><div class="c" style="background:#000;color:#fff">#000000</div></div></section>
+<section id="type"><h2>шрифт</h2><p>Helvetica Neue Light с обводкой и неровным краем: штрих дрожит, толщина гуляет. Логотип только строчными. Разрядка 10 %, интерлиньяж 86 %, по левому краю.</p><canvas id="ty" style="width:100%;max-width:900px;background:#fff"></canvas></section>
+<section id="motion"><h2>движение</h2><p>Персонажи всё время танцуют и бьют палкой в бубен. Петля: четыре удара, сильный и слабый чередуются. Начало и конец совпадают, поэтому ролик крутится без шва.</p><div class="g w" id="m1"></div>
+<h3>удар</h3><p>Палка отскакивает, зависает и падает с ускорением, каждый раз в ту же точку кожи. От удара бубен дёргается, обод на миг становится толще.</p><div class="g" id="m2"></div>
+<h3>сила</h3><p>Темп, удар и танец меняются отдельно. Меняй размах, но не убирай удары.</p><div class="g" id="m3"></div>
+<h3>вместе</h3><p>Несколько персонажей бьют одновременно, но танцуют каждый в своей фазе.</p><div class="g" id="m4"></div>
+<h3>в посте</h3><p>Движется только персонаж: текст и логотип стоят. Ролик состоит из целых петель. В неподвижной картинке пересекаться может только палка с бубном, в танце линии могут заходить друг на друга.</p><div class="g" id="m5"></div></section>
+<section id="posts"><h2>посты</h2><p>Текст сам переносится и подбирает кегль, стоит сверху, по центру или снизу и обходит логотип. В бубен его не вписываем. Цвет: на розовом чёрный или белый, на чёрном белый, розовый или жёлтый, на фото белый, на остальном чёрный.</p><div class="g" id="gp"></div></section>
+<section id="profile"><h2>профиль</h2><p>Аватар показан квадратом файла и кругом инстаграма.</p><div class="g" id="ga"></div></section>
+</main><script src="characters.js?v=202611252155"></script><script src="char-core.js?v=202611252155"></script><script src="dance.js?v=202611252155"></script><script src="chars-live.js?v=202611252155"></script><script src="figure.js?v=202611252155"></script><script src="render.js?v=202611252155"></script><script type="module">
+await Promise.race([Promise.all(['абвгд','abc123'].map(t=>document.fonts.load('300 40px TSB',t))),new Promise(r=>setTimeout(r,2500))]);
+
+const add=(id,w,h,f,cap)=>{const g=document.createElement('figure'),c=document.createElement('canvas');c.width=w;c.height=h;f(c.getContext('2d'),w,h);g.appendChild(c);if(cap){const t=document.createElement('figcaption');t.textContent=cap;g.appendChild(t)}document.getElementById(id).appendChild(g);return c};
+const post=(o,w,h)=>renderPost({set:Object.assign({},DEFSET,o),pan:[0,0]},w,h),put=o=>(x,w,h)=>x.drawImage(post(o,w,h),0,0);
+add('gi',1000,1000,(x,w,h)=>Fig.figure(x,70,70,860,860,{w:13,line:'#000',skin:COL.yellow,side:COL.pink}));
+add('gi',1000,1000,(x,w,h)=>Fig.figure(x,70,70,860,860,{w:13,line:'#000',turn:1,side:COL.pink}));
+for(const k of Object.keys(Fig.LOGOS).filter(k=>RIMMED.includes(k)))add('gl',600,600,(x,w,h)=>{const b=Fig.LOGOS[k],z=380/Math.max(b[2],b[3]);Fig.logo(x,k,(w-b[2]*z)/2,(h-b[3]*z)/2,z,{skin:'#fff'})},Fig.LOGONAME[k]);
+for(const[w,h,o]of[[600,300,{}],[600,600,{skin:COL.yellow}],[600,900,{flip:1}],[600,900,{turn:1,skin:COL.yellow}]])add('gf',w,h,x=>Fig.figure(x,40,40,w-80,h-80,Object.assign({w:8,line:'#000',side:COL.pink},o)));
+CHARLIB.ids.forEach((id,i)=>add('gc',600,800,x=>Fig.figure(x,40,40,520,720,{ch:id,w:9,line:'#000',side:i%3===2?COL.yellow:COL.pink,skin:i%3===1?COL.yellow:null})));
+{const c=document.getElementById('h1');c.width=880;c.height=260;Fig.text(c.getContext('2d'),['танцы','с бубном'],4,4,140,'#000')}
+{const c=document.getElementById('ty');c.width=1800;c.height=560;const x=c.getContext('2d');Fig.text(x,['танцы','с бубном'],80,60,150,'#000');Fig.text(x,['абвгдеёжзийклмнопрстуфхцчшщъыьэюя','0123456789'],80,400,52,'#000')}
+for(const o of[EXAMPLE,...STARTS])add('gp',720,960,put(o));
+// движение: рисуется тем же движком, что ролики; за экраном и при «меньше движения» стоит
+const MOV=[],calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const move=(id,w,h,f,cap)=>{let x;const c=add(id,w,h,y=>x=y,cap),m={c,x,w,h,f,on:true};MOV.push(m);return m};
+const dancer=(id,o={})=>(x,w,h,t)=>{const mo=Object.assign({hit:.5,dance:.5,tempo:.5},o.m),p=w*.07;x.fillStyle=o.bg||'#fff';x.fillRect(0,0,w,h);Fig.figures(x,p,p,w-2*p,h-2*p,{kind:o.kind||'one',ch:id,u:t==null?null:(t*(.5+mo.tempo)/3.2)%1,motion:mo,w:w*(o.w||.015),line:o.bg==='#000000'?'#fff':'#000',skin:o.skin,side:o.side||COL.pink})};
+const at=k=>CHARLIB.ids.includes(k)?k:CHARLIB.ids[k%CHARLIB.ids.length];
+move('m1',720,720,dancer(at(10),{skin:COL.yellow}));move('m1',720,720,dancer(at(5),{bg:'#ffcc00',skin:'#ffffff'}));
+for(const[f,t]of[[0,'касание'],[.12,'отскок'],[.5,'замах'],[.9,'падение']])add('m2',480,480,(x,w,h)=>dancer(at(10),{skin:COL.yellow,w:.017})(x,w,h,f*.8),t);
+for(const[t,m]of[['тихо',{tempo:.3,hit:.25,dance:.2}],['обычно',{}],['сильно',{tempo:.75,hit:.8,dance:1}]])move('m3',480,480,dancer(at(1),{m,skin:COL.yellow,w:.017}),t);
+move('m4',600,800,dancer(at(1),{kind:'mix',w:.01,side:COL.yellow}),'четверо разных');move('m4',600,800,dancer(at(4),{kind:'four',w:.01,bg:'#000000'}),'четверо одинаковых');
+for(const[o,w,h]of[[EXAMPLE,600,800],[Object.assign({},EXAMPLE,{surf:'black',ch:at(7),skin:'yellow',tcol:'yellow'}),600,800]])move('m5',w,h,(x,W,H,t)=>{const p={set:Object.assign({},DEFSET,o),pan:[0,0]};x.drawImage(renderPost(p,W,H,{t}),0,0)});
+MOV.forEach(m=>m.f(m.x,m.w,m.h,calm?null:0));
+if(!calm){const io=new IntersectionObserver(L=>L.forEach(e=>{const m=MOV.find(m=>m.c===e.target);m.on=e.isIntersecting}));MOV.forEach(m=>io.observe(m.c));const go=T=>{if(!document.hidden)for(const m of MOV)if(m.on)m.f(m.x,m.w,m.h,T/1000);requestAnimationFrame(go)};requestAnimationFrame(go)}
+const A=(o={})=>renderPost({av:true,set:Object.assign({},DEFSET,{surf:'pink'},o),pan:[0,0]},600,600);
+add('ga',600,600,x=>x.drawImage(A(),0,0));add('ga',600,600,x=>x.drawImage(A(),0,0)).style.borderRadius='50%';add('ga',600,600,x=>x.drawImage(A({akind:'figure'}),0,0)).style.borderRadius='50%';
+{const c=document.getElementById('tbLogo');c.width=128;c.height=80;c.style.cssText='width:64px;height:40px';Fig.logo(c.getContext('2d'),'oval',0,2,.42,{skin:COL.yellow})}
+</script></body></html>

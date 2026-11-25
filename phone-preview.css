@@ -1,0 +1,41 @@
+/* Instagram phone; real proportions 390x844, scaled by --igk */
+.igcard{align-self:flex-start;margin-top:64px}
+.igpanel{position:fixed;top:76px;right:24px;z-index:15;opacity:0;transform:translateX(24px);pointer-events:none;transition:opacity .2s,transform .2s}
+.igpanel.on{opacity:1;transform:none;pointer-events:auto}.igpanel .igcard{margin:0}
+@media (prefers-reduced-motion:reduce){.igpanel{transition:none}}
+.ighd.c b{text-align:center;margin:0}.ighd.c span{width:14px}
+.igun{font-size:14px;font-weight:600}
+.igstory span{max-width:70px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+.igun span{font-weight:400;margin-left:4px}
+.igmore{color:#8e8e8e}.iglink{color:#3156d6;margin-top:4px}
+.igfb{display:flex;align-items:center;gap:8px;padding:0 16px 10px;font-size:12px;line-height:1.3}.igfa{display:flex;flex:none}.igfa i{width:22px;height:22px;border-radius:50%;background:#ddd;border:2px solid #fff;margin-left:-7px}.igfa i:first-child{margin-left:0}
+.igbt span.sq{flex:none;width:30px}
+.igstory canvas{width:64px;height:64px;border-radius:50%;box-sizing:border-box;border:2px solid #fff;outline:1px solid #dbdbdb}
+.igwrap{width:calc(390px*var(--igk,.8));height:calc(844px*var(--igk,.8));flex:none}
+.igph{width:390px;height:844px;transform:scale(var(--igk,.8));transform-origin:0 0;touch-action:pan-y;cursor:grab;user-select:none;box-sizing:border-box;flex:none;border:12px solid var(--ink);border-radius:56px;background:var(--ink);overflow:hidden;font:13px -apple-system,system-ui,sans-serif;color:#111}
+.igtrack{display:flex;width:300%;height:100%;transition:transform .25s}.igtrack.still{transition:none}
+.igs{background:#fff;width:33.3333%;flex:none;height:100%;box-sizing:border-box;padding:12px 0 18px;overflow:hidden}
+.igst3{background:var(--ink);color:#fff;padding-bottom:0}
+.igmedia{position:relative;border-radius:10px;overflow:hidden;color:#fff}.igmedia.light{color:var(--ink)}.igmedia canvas{display:block}.igmedia>canvas{width:100%}
+.igbar{position:absolute;left:10px;right:10px;top:10px;height:2px;border-radius:2px;background:color-mix(in srgb,currentColor 35%,transparent)}.igbar i{display:block;height:100%;border-radius:2px;background:currentColor}
+.igwho{position:absolute;left:12px;right:12px;top:22px;display:flex;align-items:center;gap:8px;font-size:13px}.igwho span{opacity:.75}.igwho .igx{margin-left:auto;font-size:26px;line-height:1;opacity:1}
+.igreply{display:flex;align-items:center;gap:16px;padding:14px 16px;font-size:20px}.igreply span{flex:1;border:1px solid #6b6964;border-radius:22px;padding:10px 16px;font-size:13px}.igreply i{font-style:normal}
+.igdotsnav{display:flex;justify-content:center;gap:4px;margin-top:10px}.igdotsnav button{border:0;background:none;border-radius:10px;padding:6px 12px;font:inherit;color:var(--mut)}.igdotsnav button.on{background:var(--yellow);color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.igtrack{transition:none}}
+.igsb{display:flex;justify-content:space-between;padding:0 22px 8px;font-size:13px}
+.ighd{display:flex;align-items:center;padding:4px 16px 12px;font-size:18px}.ighd b{flex:1;margin-left:14px;font-size:17px}
+.igtop{display:flex;align-items:center;gap:18px;padding:0 16px}
+.igav{border-radius:50%;display:block;flex:none}
+.igst>b{font-size:14px}.ignums{display:flex;gap:16px;margin-top:6px}.ignums div{display:flex;flex-direction:column;font-size:12px}.ignums b{font-size:16px}
+.igbio{padding:10px 16px 10px;line-height:1.4}
+.igbt{display:flex;gap:6px;padding:0 16px}.igbt span{flex:1;text-align:center;background:#efefef;border-radius:8px;padding:6px 0;font-weight:600}
+.igstories{display:flex;gap:12px;padding:12px 16px;overflow:hidden}.igstory{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px}.igstory i{width:54px;height:54px;border-radius:50%;border:1px solid #ddd;background:#f6f6f6}
+.igcm{display:flex;gap:10px;padding:8px 14px 0;line-height:1.35}
+.igau{display:flex;align-items:center;gap:10px;padding:0 14px 10px}.igau b{flex:1}.igdots{font-size:16px}
+.igpost{display:block;width:100%}
+.igtabs{display:flex;margin-top:6px}.igtabs i{flex:1;display:grid;place-items:center;height:34px;border-bottom:1px solid #efefef}.igtabs i.on{border-bottom:2px solid #111}
+.igtabs svg{width:18px;height:18px;fill:#111}.igtabs svg.ol{fill:none;stroke:#8e8e8e;stroke-width:1.8}.igtabs svg.ol path{fill:none}
+.iggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}.iggrid canvas{width:100%;aspect-ratio:4/5;display:block}
+.igacts{padding:8px 14px 2px;font-size:18px;letter-spacing:2px}
+.igcap{padding:0 14px 4px;font-size:11.5px;line-height:1.35}.igcap>div{margin-top:2px}
+.iggray{width:28px;height:28px;border-radius:50%;background:#e4e4e4;flex:none}.igmeta{color:#8e8e8e;font-size:11px;margin-top:3px}
