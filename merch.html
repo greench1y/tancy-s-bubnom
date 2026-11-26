@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>танцы с бубном: мерч</title>
+<link rel="stylesheet" href="ui-kit.css?v=202611261033">
+<link rel="stylesheet" href="font.css?v=202611261033"><style>
+html,body{margin:0;min-height:100%}
+.hand{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--yellow);border:2px solid #000;padding:0;touch-action:none;z-index:2}
+.selbox{pointer-events:none}
+.ontext{font-weight:300;letter-spacing:.1em;line-height:.86;white-space:pre-wrap;-webkit-text-stroke:.0467em;z-index:3}
+.amask{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle closest-side,transparent 99.4%,rgba(243,242,239,.82) 100%)}
+.dleft{z-index:5}.row{padding-left:200px}.sechd{padding-left:200px}.klab{background:var(--bg);border-radius:8px;padding:2px 6px}
+.kinds{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.kind{width:44px;height:36px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:3px;display:grid;place-items:center}
+.kind.on{border-color:var(--yellow);box-shadow:0 0 0 2px var(--yellow)}
+.circ svg,.kind svg{width:20px;height:20px;fill:none;stroke:#000;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.people{display:grid;grid-template-columns:repeat(4,38px);gap:4px}.people .kind{width:38px;height:38px;padding:2px}
+.sw{width:36px;height:36px}.sw.no{background:linear-gradient(to top right,transparent 47%,#ff00c4 47%,#ff00c4 53%,transparent 53%),#fff!important}
+.dgrp.mini .sws .sw{width:28px;height:28px}
+.cap{position:absolute;left:0;top:calc(100% + 64px);color:var(--mut)}
+.selbox{box-shadow:none}
+.tmot{position:absolute;left:0;right:0;top:calc(100% + 108px);display:flex;justify-content:flex-start;gap:18px}.ttick.bar{top:9px;height:18px;background:#b9b5ad}#rowpost .card{margin-bottom:170px}.tline{z-index:1}
+#rowmerch .card{margin-bottom:90px}.tbbtn{border:0;background:none;font:inherit;cursor:pointer}.mlabel{position:absolute;left:12px;top:10px;font-size:12px;color:#fff;opacity:.75;pointer-events:none}
+</style></head><body data-page="merch">
+<header class="topbar"><a class="tblogo" href="guide.html" aria-label="бренд гайд"><canvas id="tbLogo"></canvas></a><span style="display:flex;gap:4px"><a class="tbl" href="guide.html">бренд гайд</a><a class="tbl" href="character.html">персонаж</a></span>
+<nav class="tbnav"><a href="assets.html#posts">пост</a><a href="assets.html#profile">профиль</a><a href="#merch" data-k="merch" class="on">мерч</a></nav></header>
+<div class="page"><section class="sec" id="merch"><div class="sechd" id="hdmerch"></div><div class="row" id="rowmerch"></div></section></div>
+<div id="drop">брось фото</div><input type="file" id="file" accept="image/*" hidden>
+<script src="characters.js?v=202611261033"></script><script src="char-core.js?v=202611261033"></script><script src="dance.js?v=202611261033"></script><script src="chars-live.js?v=202611261033"></script><script src="figure.js?v=202611261033"></script><script src="render.js?v=202611261033"></script><script src="ui-kit.js?v=202611261033"></script><script src="export.js?v=202611261033"></script>
+<script src="merch/mockups.js"></script><script src="defaults.js?v=202611261033"></script><script src="studio.js?v=202611261033"></script></body></html>
