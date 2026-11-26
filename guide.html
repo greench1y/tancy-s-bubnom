@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>танцы с бубном: гайд</title>
-<link rel="stylesheet" href="ui-kit.css?v=202611261033"><link rel="stylesheet" href="font.css?v=202611261033"><style>
+<link rel="stylesheet" href="ui-kit.css?v=202611261040"><link rel="stylesheet" href="font.css?v=202611261040"><style>
 html{scroll-behavior:smooth;scroll-padding-top:84px}body{margin:0}
 .side{position:fixed;top:92px;left:24px;width:150px;display:flex;flex-direction:column;gap:2px}.side a{color:#000;text-decoration:none;padding:7px 12px;border-radius:10px}.side a:hover{background:#fff}
 main{margin-left:210px;padding:92px 40px 20vh 0;max-width:1180px}section{margin-bottom:88px}h1{font-weight:300;font-size:64px;letter-spacing:.06em;line-height:.9;margin:0 0 24px;-webkit-text-stroke:2px #000}h2{font-weight:500;font-size:26px;margin:0 0 10px}h3{font-weight:500;font-size:18px;margin:36px 0 6px}
@@ -24,7 +24,7 @@ figure{margin:0}figure canvas{width:100%;display:block;background:#fff}figcaptio
 <section id="posts"><h2>посты</h2><p>Текст сам переносится и подбирает кегль, стоит сверху, по центру или снизу и обходит логотип. В бубен его не вписываем. Цвет: на розовом чёрный или белый, на чёрном белый, розовый или жёлтый, на белом чёрный или розовый, на фото белый, на жёлтом чёрный.</p><div class="g" id="gp"></div></section>
 <section id="profile"><h2>профиль</h2><p>Аватар показан квадратом файла и кругом инстаграма.</p><div class="g" id="ga"></div></section>
 <section id="merch"><h2>мерч</h2><p>Принт рисуется так же, как пост: персонаж, текст, логотип. Плашка жёлтая, розовая или чёрная, с неровным краем, вокруг белое поле; фигура и текст могут выходить за неё, но персонаж целиком помещается в принт. Спереди маленький логотип на груди, сзади персонаж во весь принт. Файл для печати 2400×3000 с прозрачным фоном: белое уходит в ткань.</p><div class="g" id="gm"></div></section>
-</main><script src="characters.js?v=202611261033"></script><script src="char-core.js?v=202611261033"></script><script src="dance.js?v=202611261033"></script><script src="chars-live.js?v=202611261033"></script><script src="figure.js?v=202611261033"></script><script src="render.js?v=202611261033"></script><script src="merch/mockups.js"></script><script src="defaults.js?v=202611261033"></script><script type="module">
+</main><script src="characters.js?v=202611261040"></script><script src="char-core.js?v=202611261040"></script><script src="dance.js?v=202611261040"></script><script src="chars-live.js?v=202611261040"></script><script src="figure.js?v=202611261040"></script><script src="render.js?v=202611261040"></script><script src="merch/mockups.js"></script><script src="defaults.js?v=202611261040"></script><script type="module">
 await Promise.race([Promise.all(['абвгд','abc123'].map(t=>document.fonts.load('300 40px TSB',t))),new Promise(r=>setTimeout(r,2500))]);
 
 const add=(id,w,h,f,cap)=>{const g=document.createElement('figure'),c=document.createElement('canvas');c.width=w;c.height=h;f(c.getContext('2d'),w,h);g.appendChild(c);if(cap){const t=document.createElement('figcaption');t.textContent=cap;g.appendChild(t)}document.getElementById(id).appendChild(g);return c};

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>танцы с бубном: персонаж</title>
-<link rel="stylesheet" href="ui-kit.css?v=202611261033"><link rel="stylesheet" href="font.css?v=202611261033"><style>
+<link rel="stylesheet" href="ui-kit.css?v=202611261040"><link rel="stylesheet" href="font.css?v=202611261040"><style>
 html,body{margin:0}
 .wrap{padding:92px 40px 32px 24px;display:grid;grid-template-columns:150px auto minmax(260px,1fr);gap:28px;align-items:start;justify-content:start}
 .knobs{display:flex;flex-direction:column;gap:8px;align-items:flex-end}.knobs .gap{height:14px}
@@ -18,7 +18,7 @@ html,body{margin:0}
 <div><div class="bar top" id="top"></div><div class="ed" id="ed"><b id="xn" aria-live="polite"></b><canvas id="cv"></canvas><svg id="ov"></svg></div><div class="bar" id="bot"></div></div>
 <div class="tests" id="tests"></div></div>
 <div class="troupe"><div class="bar top"><div class="chips" id="rat"></div><div class="dgrp"><button class="rect" onclick="toFile()">сохранить в файл</button><button class="rect" onclick="$('ff').value='';$('ff').click()">добавить из файла</button><input type="file" id="ff" accept=".json,application/json" hidden></div></div><div class="grid" id="grid"></div></div>
-<script src="chars-default.js?v=202611261033"></script><script src="poses.js?v=202611261033"></script><script src="cross.js?v=202611261033"></script><script src="dance.js?v=202611261033"></script><script src="figure.js?v=202611261033"></script><script src="ui-kit.js?v=202611261033"></script><script>
+<script src="chars-default.js?v=202611261040"></script><script src="poses.js?v=202611261040"></script><script src="cross.js?v=202611261040"></script><script src="dance.js?v=202611261040"></script><script src="figure.js?v=202611261040"></script><script src="ui-kit.js?v=202611261040"></script><script>
 'use strict';
 const $=id=>document.getElementById(id),clone=o=>JSON.parse(JSON.stringify(o)),KEY='tsb.characters.v3',OLD='tsb.characters.v2';
 // точки макета, 342×342

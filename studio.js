@@ -56,9 +56,10 @@ async function importProject(file){let o;try{o=JSON.parse(await file.text())}cat
   try{localStorage.setItem(KEY+'.before-open',localStorage.getItem(KEY)||'null')}catch(e){}
   ready=false;try{const d=await db();for(const[k,u]of Object.entries(o.photos||{})){const b=await (await fetch(u)).blob();await new Promise(ok=>{const t=d.transaction('p','readwrite');t.objectStore('p').put(b,k);t.oncomplete=ok;t.onerror=ok})}}catch(e){console.warn(e)}
   localStorage.setItem(KEY,JSON.stringify(o.state));location.reload()}
-{const bar=document.querySelector('.topbar .tbl')?.parentNode,pf=el('input');pf.type='file';pf.accept='.json,application/json';pf.hidden=true;pf.onchange=()=>{if(pf.files[0])importProject(pf.files[0]);pf.value=''};
+{const nav=document.querySelector('.topbar .tbnav'),pf=el('input');pf.type='file';pf.accept='.json,application/json';pf.hidden=true;pf.onchange=()=>{if(pf.files[0])importProject(pf.files[0]);pf.value=''};
   const b=(t,ti,f)=>{const x=el('button','tbl tbbtn',t);x.title=ti;x.onclick=f;return x};
-  if(bar)bar.append(b('сохранить проект','скачать файл со всеми постами, профилем, мерчем и фото',exportProject),b('открыть проект','загрузить сохранённый файл проекта',()=>pf.click()),pf)}
+  // справа, перед разделами: сохранить, открыть | пост профиль мерч
+  const box=el('span','tbproj');if(nav){nav.before(box);box.append(b('сохранить проект','скачать файл со всеми постами, профилем, мерчем и фото',exportProject),b('открыть проект','загрузить сохранённый файл проекта',()=>pf.click()),pf,el('i','tbsep'))}}
 // ───────── связанные посты
 const grpOf=i=>{const A=L.post;let a=i;while(a>0&&A[a-1].link)a--;let n=1;while(A[a+n-1].link&&A[a+n])n++;return{a,n,k:i-a}};
 const SHARED=['tempo','hit','dance','loops','surf','fig','ch','fkind','fx','fy','fw','fh','turn','flip','weight','line','skin','side'];
